@@ -7,7 +7,7 @@ import java.sql.SQLException;
 public class ConnectDB {
     public Connection connection() throws SQLException {
         String server = "localhost";
-        String port = "3306";
+        String port = "3305";
         String database = "chat-translator-db";
         String username = "main";
         String password = "root";
