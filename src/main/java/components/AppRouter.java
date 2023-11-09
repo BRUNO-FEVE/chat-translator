@@ -3,9 +3,11 @@ package components;
 import Interfaces.User;
 import components.Chat;
 import infra.ConnectDB;
+import server.ServerChatConnection;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -15,10 +17,13 @@ public class AppRouter extends JFrame {
     public ConnectDB dataBase;
     public JPanel content;
     public Container box;
+
+    private final String HOST = "127.0.0.1";
+    private final int PORT = 4000;
+
     public AppRouter() throws SQLException {
 
-        this.dataBase = new ConnectDB();
-        this.connection = dataBase.connection();
+        this.ConnectToServer();
 
         User user = new User("Bruno", "11957705558", "pt-br", "/tmp/picture");
         Chat chatPage = new Chat(user);
@@ -37,5 +42,16 @@ public class AppRouter extends JFrame {
         setSize(400, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
+    }
+
+    private void ConnectToServer() {
+        System.out.println(" -- Client Console -- ");
+        try {
+            ServerChatConnection serverChatConnection = new ServerChatConnection();
+            serverChatConnection.start(this.HOST, this.PORT);
+        } catch (IOException error) {
+            System.out.println("Error on Connecting to Server: " + error.getMessage());
+        }
+        System.out.println(" -- Client Console Stopped --");
     }
 }
