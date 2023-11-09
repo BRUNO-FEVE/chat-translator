@@ -12,10 +12,11 @@ import back.entities.User;
 import static back.modules.CaesarCipher.encrypt;
 
 public class Create_txt_file
-{  private Formatter output;  
+{  private Formatter output; 
+   private String filePath = "src/main/java/back/Chat_Messages.txt"; 
    public void openFile()  
    {  try
-      {  output = new Formatter( "Messages.txt" );
+      {  output = new Formatter( filePath );
       }  
       catch( SecurityException securityException )
       {  System.err.println( "You do not have write access to this file." );

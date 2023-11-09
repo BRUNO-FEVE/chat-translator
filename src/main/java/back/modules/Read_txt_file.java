@@ -12,10 +12,11 @@ import back.entities.User;
 public class Read_txt_file {
 
     private Scanner input;
+    private String filePath = "src/main/java/back/Chat_Messages.txt"; 
 
     public void openFile()
    {  try
-      {  input = new Scanner( new File( "Messages.txt" ) );
+      {  input = new Scanner( new File( filePath ) );
       }  
       catch ( FileNotFoundException fileNotFoundException )
       {  System.err.println( "Error opening file." );
