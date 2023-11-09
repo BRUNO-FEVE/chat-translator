@@ -4,8 +4,6 @@ services:
     restart: always
     environment:
       MYSQL_DATABASE: "chat-translator-db"
-      MYSQL_USER: main
-      MYSQL_PASSWORD: root
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: my-secret-pw
     ports:
-      - "3305:3305"
+      - "3305:3306"
