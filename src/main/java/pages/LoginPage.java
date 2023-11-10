@@ -27,7 +27,7 @@ public class LoginPage extends PageModel implements ActionListener {
         super.superTitle = "Login";
 
         // Configurando o ResourceBundle para o idioma fornecido
-        resourceBundle = ResourceBundle.getBundle("MessagesBundle", locale);
+        resourceBundle = ResourceBundle.getBundle("Ex", locale);
 
         loginLabel = new JLabel(resourceBundle.getString("loginLabel"));
         passwordLabel = new JLabel(resourceBundle.getString("passwordLabel"));
@@ -104,7 +104,7 @@ public class LoginPage extends PageModel implements ActionListener {
     }
 
     public void updateLocale(Locale locale) {
-        resourceBundle = ResourceBundle.getBundle("MessagesBundle", locale);
+        resourceBundle = ResourceBundle.getBundle("Ex", locale);
         loginLabel.setText(resourceBundle.getString("loginLabel"));
         passwordLabel.setText(resourceBundle.getString("passwordLabel"));
         registerButton.setText(resourceBundle.getString("registerButton"));

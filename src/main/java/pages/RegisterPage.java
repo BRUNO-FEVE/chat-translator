@@ -23,7 +23,7 @@ public class RegisterPage extends PageModel implements ActionListener {
         super.superTitle = "Registre-se";
 
         // Configurando o ResourceBundle para o idioma fornecido
-        resourceBundle = ResourceBundle.getBundle("MessagesBundle", locale);
+        resourceBundle = ResourceBundle.getBundle("Ex", locale);
 
         nameLabel = new JLabel(resourceBundle.getString("nameLabel"));
         telLabel = new JLabel(resourceBundle.getString("telLabel"));
@@ -125,7 +125,7 @@ public class RegisterPage extends PageModel implements ActionListener {
     }
 
     public void updateLocale(Locale locale) {
-        resourceBundle = ResourceBundle.getBundle("MessagesBundle", locale);
+        resourceBundle = ResourceBundle.getBundle("Ex", locale);
         nameLabel.setText(resourceBundle.getString("nameLabel"));
         telLabel.setText(resourceBundle.getString("telLabel"));
         emailLabel.setText(resourceBundle.getString("emailLabel"));

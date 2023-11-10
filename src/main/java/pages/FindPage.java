@@ -21,7 +21,7 @@ public class FindPage extends PageModel implements ActionListener {
         super();
 
         // Configurando o ResourceBundle para o idioma fornecido
-        resourceBundle = ResourceBundle.getBundle("MessagesBundle", locale);
+        resourceBundle = ResourceBundle.getBundle("Ex", locale);
 
         conversationLabel = new JLabel(resourceBundle.getString("conversationLabel"));
         chatTextField = new JTextField(15); // Ajuste o tamanho conforme necessário
@@ -59,7 +59,7 @@ public class FindPage extends PageModel implements ActionListener {
     }
 
     public void updateLocale(Locale locale) {
-        resourceBundle = ResourceBundle.getBundle("MessagesBundle", locale);
+        resourceBundle = ResourceBundle.getBundle("Ex", locale);
         conversationLabel.setText(resourceBundle.getString("conversationLabel"));
         findButton.setText(resourceBundle.getString("findButton"));
         // Adicione outras atualizações necessárias

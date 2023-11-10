@@ -128,7 +128,7 @@ public class AppRouter extends JFrame implements ActionListener {
     }
 
     public void setLocale(Locale locale) {
-        resourceBundle = ResourceBundle.getBundle("MessagesBundle", locale);
+        resourceBundle = ResourceBundle.getBundle("Ex", locale);
 
         loginContent.updateLocale(locale);
         registerContent.updateLocale(locale);

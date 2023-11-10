@@ -23,7 +23,7 @@ public class ChatPage extends PageModel {
         super.superTitle = "Chat";
 
         // Configurando o ResourceBundle para o idioma fornecido
-        resourceBundle = ResourceBundle.getBundle("MessagesBundle", locale);
+        resourceBundle = ResourceBundle.getBundle("Ex", locale);
 
         super.caixa.setLayout(new BorderLayout());
 
@@ -54,6 +54,6 @@ public class ChatPage extends PageModel {
     }
 
     public void updateLocale(Locale locale) {
-        resourceBundle = ResourceBundle.getBundle("MessagesBundle", locale);
+        resourceBundle = ResourceBundle.getBundle("Ex", locale);
     }
 }
