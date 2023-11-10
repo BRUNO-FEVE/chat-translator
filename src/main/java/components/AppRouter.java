@@ -3,6 +3,7 @@ package components;
 import Interfaces.User;
 import components.Chat;
 import infra.ConnectDB;
+import server.MessageTranslator;
 import server.ServerChatConnection;
 
 import javax.swing.*;
@@ -21,12 +22,14 @@ public class AppRouter extends JFrame {
     private final String HOST = "127.0.0.1";
     private final int PORT = 4000;
 
+    private User user;
+
     public AppRouter() throws SQLException {
 
-        this.ConnectToServer();
+        this.user = new User("Bruno from Brazil", "11957705558", "pt-br", "/tmp/picture");
+        Chat chatPage = new Chat(this.user);
 
-        User user = new User("Bruno", "11957705558", "pt-br", "/tmp/picture");
-        Chat chatPage = new Chat(user);
+        this.ConnectToServer();
 
         JPanel chat = new JPanel();
         chat.add(chatPage.content);
@@ -47,7 +50,9 @@ public class AppRouter extends JFrame {
     private void ConnectToServer() {
         System.out.println(" -- Client Console -- ");
         try {
-            ServerChatConnection serverChatConnection = new ServerChatConnection();
+            MessageTranslator translator = new MessageTranslator(this.user.language);
+
+            ServerChatConnection serverChatConnection = new ServerChatConnection(translator);
             serverChatConnection.start(this.HOST, this.PORT);
         } catch (IOException error) {
             System.out.println("Error on Connecting to Server: " + error.getMessage());
