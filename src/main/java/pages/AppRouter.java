@@ -29,17 +29,17 @@ public class AppRouter extends JFrame implements ActionListener {
 
     private ResourceBundle resourceBundle;
 
-    // Adicionamos um construtor que aceita um Locale opcional
     public AppRouter(int languageChoice) {
         setTitle(title);
 
-        // Configurando o ResourceBundle para o idioma padrão ou o idioma fornecido
+        // Configuring the ResourceBundle for the default or provided language
         switch (languageChoice) {
             case 1:
                 resourceBundle = ResourceBundle.getBundle("ex", new Locale("pt", "BR"));
                 break;
             case 2:
                 resourceBundle = ResourceBundle.getBundle("ex", Locale.US);
+                System.out.println(resourceBundle);
                 break;
             case 3:
                 resourceBundle = ResourceBundle.getBundle("ex", Locale.FRANCE);
@@ -55,49 +55,56 @@ public class AppRouter extends JFrame implements ActionListener {
                 break;
         }
 
+        // Create loginContent before using it
+        loginContent = new LoginPage(resourceBundle.getLocale());
+
+        // Initialize other components
         caixa = getContentPane();
         caixa.setLayout(new FlowLayout());
 
-        loginContent = new LoginPage(resourceBundle.getLocale());
+        loginPanel = new JPanel();
+        loginPanel.add(loginContent.getScreenContent());
+
+        // Create the rest of the components
         registerContent = new RegisterPage(resourceBundle.getLocale());
         currentUser = new User("Beto Costa", "123456789", "Português", "path/to/picture.jpg");
         chatContent = new ChatPage(currentUser, resourceBundle.getLocale());
         findContent = new FindPage(resourceBundle.getLocale());
 
-        loginPanel = new JPanel();
         registerPanel = new JPanel();
         chatPanel = new JPanel();
         findPanel = new JPanel();
 
-        loginPanel.add(loginContent.getScreanContent());
         registerPanel.add(registerContent.getScreanContent());
         findPanel.add(findContent.getScreanContent());
         chatPanel.add(chatContent.getScreanContent());
 
-        loginContent.registerButton.addActionListener(this);
-        loginContent.loginButton.addActionListener(this);
-        registerContent.registerButton2.addActionListener(this);
-        findContent.findButton.addActionListener(this);
+        loginContent.getRegisterButton().addActionListener(this);
+        loginContent.getLoginButton().addActionListener(this);
+        registerContent.getRegisterButton2().addActionListener(this);
+        findContent.getFindButton().addActionListener(this);
 
-        findContent.exit.addActionListener(this);
-        chatContent.exit.addActionListener(this);
-        registerContent.exit.addActionListener(this);
+        findContent.getExitMenuItem().addActionListener(this);
+        chatContent.getExitMenuItem().addActionListener(this);
+        registerContent.getExitMenuItem().addActionListener(this);
 
-        findContent.back.addActionListener(this);
-        chatContent.back.addActionListener(this);
-        registerContent.back.addActionListener(this);
+        findContent.getBackMenuItem().addActionListener(this);
+        chatContent.getBackMenuItem().addActionListener(this);
+        registerContent.getBackMenuItem().addActionListener(this);
 
         this.content = loginPanel;
         caixa.add(content);
-
-        this.menuBar = createMenuBar();
-        setJMenuBar(menuBar);
 
         pack();
         setLocationRelativeTo(null);
         setSize(500, 750);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocale(resourceBundle.getLocale());
         setVisible(true);
+
+        // Set the menu bar after all components have been added to the frame
+        this.menuBar = createMenuBar();
+        setJMenuBar(menuBar);
     }
 
     private JMenuBar createMenuBar() {
@@ -130,15 +137,25 @@ public class AppRouter extends JFrame implements ActionListener {
     public void setLocale(Locale locale) {
         resourceBundle = ResourceBundle.getBundle("Ex", locale);
 
-        loginContent.updateLocale(locale);
-        registerContent.updateLocale(locale);
-        findContent.updateLocale(locale);
-        chatContent.updateLocale(locale);
+        if (loginContent != null) {
+            loginContent.updateLocale(locale);
+        }
+        if (registerContent != null) {
+            registerContent.updateLocale(locale);
+        }
+        if (findContent != null) {
+            findContent.updateLocale(locale);
+        }
+        if (chatContent != null) {
+            chatContent.updateLocale(locale);
+        }
 
         // Update other components or do additional actions if needed
 
         // Update the menu to reflect the language change
-        setJMenuBar(createMenuBar());
+        if (getRootPane() != null) {
+            setJMenuBar(menuBar);
+        }
 
         // Redraw the user interface
         revalidate();

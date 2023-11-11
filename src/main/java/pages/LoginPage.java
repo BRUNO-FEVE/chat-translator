@@ -110,4 +110,9 @@ public class LoginPage extends PageModel implements ActionListener {
         registerButton.setText(resourceBundle.getString("registerButton"));
         loginButton.setText(resourceBundle.getString("loginButton"));
     }
+
+    // Getter method to return the screen content
+    public JPanel getScreenContent() {
+        return super.caixa;
+    }
 }
