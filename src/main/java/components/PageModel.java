@@ -12,7 +12,7 @@ public class PageModel {
     public JMenuBar menuBar;
     public JMenuItem back, exit, menu, viewHour, createHours;
     public JMenu languageMenu;
-    public JMenuItem englishItem, spanishItem, portugueseItem;
+    public JMenuItem englishItem, japaneseItem, portugueseItem, frenchItem, italianItem;
 
     public PageModel() {
         this.caixa = new JPanel();
@@ -28,16 +28,20 @@ public class PageModel {
         menu = new JMenuItem("Menu");
 
         englishItem = new JMenuItem("English");
-        spanishItem = new JMenuItem("Español");
+        japaneseItem = new JMenuItem("日本語");
         portugueseItem = new JMenuItem("Português");
+        frenchItem = new JMenuItem("Français");
+        italianItem = new JMenuItem("Italiano");
 
         fileMenu.add(back);
         fileMenu.addSeparator();
         fileMenu.add(exit);
 
         languageMenu.add(englishItem);
-        languageMenu.add(spanishItem);
+        languageMenu.add(japaneseItem);
         languageMenu.add(portugueseItem);
+        languageMenu.add(frenchItem);
+        languageMenu.add(italianItem);
 
         menuBar.add(fileMenu);
         menuBar.add(languageMenu);

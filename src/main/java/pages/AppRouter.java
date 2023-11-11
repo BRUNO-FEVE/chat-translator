@@ -67,7 +67,7 @@ public class AppRouter extends JFrame implements ActionListener {
 
         // Create the rest of the components
         registerContent = new RegisterPage(resourceBundle.getLocale());
-        currentUser = new User("Beto Costa", "123456789", "Português", "path/to/picture.jpg");
+        currentUser = new User("Carlos Costa", "123456789", "Português", "path/to/picture.jpg");
         chatContent = new ChatPage(currentUser, resourceBundle.getLocale());
         findContent = new FindPage(resourceBundle.getLocale());
 
@@ -102,36 +102,6 @@ public class AppRouter extends JFrame implements ActionListener {
         setLocale(resourceBundle.getLocale());
         setVisible(true);
 
-        // Set the menu bar after all components have been added to the frame
-        this.menuBar = createMenuBar();
-        setJMenuBar(menuBar);
-    }
-
-    private JMenuBar createMenuBar() {
-        JMenuBar menuBar = new JMenuBar();
-        JMenu languageMenu = new JMenu(resourceBundle.getString("languageMenu"));
-
-        JMenuItem ptMenuItem = new JMenuItem("Português");
-        ptMenuItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                setLocale(new Locale("pt", "BR"));
-            }
-        });
-        languageMenu.add(ptMenuItem);
-
-        JMenuItem enMenuItem = new JMenuItem("English");
-        enMenuItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                setLocale(Locale.ENGLISH);
-            }
-        });
-        languageMenu.add(enMenuItem);
-
-        menuBar.add(languageMenu);
-
-        return menuBar;
     }
 
     public void setLocale(Locale locale) {
@@ -150,14 +120,10 @@ public class AppRouter extends JFrame implements ActionListener {
             chatContent.updateLocale(locale);
         }
 
-        // Update other components or do additional actions if needed
-
-        // Update the menu to reflect the language change
         if (getRootPane() != null) {
             setJMenuBar(menuBar);
         }
 
-        // Redraw the user interface
         revalidate();
         repaint();
     }
@@ -210,12 +176,15 @@ public class AppRouter extends JFrame implements ActionListener {
         }
 
         if (e.getSource() == findContent.getExitMenuItem() || e.getSource() == chatContent.getExitMenuItem()
-                || e.getSource() == registerContent.getExitMenuItem()) {
+                || e.getSource() == registerContent.getExitMenuItem()
+                || e.getSource() == loginContent.getExitMenuItem()) {
             this.updatePage(loginContent);
         } else if (e.getSource() == findContent.getBackMenuItem() || e.getSource() == chatContent.getBackMenuItem()
-                || e.getSource() == registerContent.getBackMenuItem()) {
+                || e.getSource() == registerContent.getBackMenuItem()
+                || e.getSource() == loginContent.getExitMenuItem()) {
             this.updatePage(this.lastPages.get(this.lastPages.size() - 2));
         }
+
     }
 
     // Adicionamos um construtor padrão que usa o idioma padrão (português - Brasil)

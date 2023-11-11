@@ -89,7 +89,7 @@ public class RegisterPage extends PageModel implements ActionListener {
         columnPage.add(column);
         columnPage.add(buttomPanel);
 
-        super.menuBar.setVisible(false);
+        super.menuBar.setVisible(true);
 
         super.caixa.add(columnPage);
 

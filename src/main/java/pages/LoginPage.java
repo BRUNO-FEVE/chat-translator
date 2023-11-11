@@ -74,7 +74,7 @@ public class LoginPage extends PageModel implements ActionListener {
         buttonPanel.add(registerButton);
         buttonPanel.add(loginButton);
 
-        super.menuBar.setVisible(false);
+        super.menuBar.setVisible(true);
 
         super.caixa.add(centerPanel, BorderLayout.CENTER);
         super.caixa.add(buttonPanel, BorderLayout.SOUTH);
