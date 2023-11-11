@@ -27,10 +27,11 @@ public class Read_txt_file {
     public void readFile (User user) {
         
         int shift = 3;
-        String name = decrypt(input.nextLine(), shift);
-        String message = decrypt(input.nextLine(), shift);
+        
         try // read records from file using Scanner object 
         {
+                String name = decrypt(input.nextLine(), shift);
+                String message = decrypt(input.nextLine(), shift);
                 user.setName(name);
                 user.setMessage(message);
                 
@@ -45,7 +46,31 @@ public class Read_txt_file {
             System.err.println("Error reading from file.");
             System.exit(1);
         } 
-    } 
+    }
+    
+    public void readWholefile(User user) {
+        int shift = 3;
+        StringBuilder decryptedChat = new StringBuilder();
+    
+        try (Scanner input = new Scanner(new File(filePath))) {
+            while (input.hasNextLine()) {
+                String line = input.nextLine();
+                String decryptedLine = decrypt(line, shift);
+                decryptedChat.append(decryptedLine).append("\n");
+            }
+    
+            user.setChat(decryptedChat.toString());
+        } 
+        catch (FileNotFoundException e) {
+            System.err.println("File not found: " + e.getMessage());
+            System.exit(1);
+        }
+        catch (IllegalStateException e) {
+            System.err.println("Error reading from file: " + e.getMessage());
+            System.exit(1);
+        }
+    }
+    
     
 
     public void closeFile()

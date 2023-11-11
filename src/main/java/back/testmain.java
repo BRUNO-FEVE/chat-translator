@@ -1,13 +1,15 @@
 package back;
 
+import java.io.IOException;
+
 import back.entities.User;
 import back.modules.Create_txt_file;
 import back.modules.Read_txt_file;
 
 public class testmain {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Create_txt_file application = new Create_txt_file();
-        User user = new User("Gabriel Bianconi", "teste teste teste 1234");
+        User user = new User("Bruno", "salve");
         application.openFile();
         application.addRecords(user);
         application.closeFile();
@@ -17,9 +19,11 @@ public class testmain {
         User user2 = new User();
 
         application2.openFile();
-        application2.readFile(user2);   
+        application2.readFile(user2);
+        application2.readWholefile(user2);   
         application2.closeFile();
-        System.out.println(user2.getName());
-        System.out.println(user2.getMessage());
+        System.out.println(user.getName());
+        System.out.println(user.getMessage());
+        System.out.println(user2.getChat());
     }
 }

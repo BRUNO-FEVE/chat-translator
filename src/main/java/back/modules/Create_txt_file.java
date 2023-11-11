@@ -1,7 +1,10 @@
 package back.modules;
 
 
+import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.lang.SecurityException;
 import java.util.Formatter;
 import java.util.FormatterClosedException;
@@ -14,9 +17,9 @@ import static back.modules.CaesarCipher.encrypt;
 public class Create_txt_file
 {  private Formatter output; 
    private String filePath = "src/main/java/back/Chat_Messages.txt"; 
-   public void openFile()  
+   public void openFile() throws IOException  
    {  try
-      {  output = new Formatter( filePath );
+      {  output = new Formatter(new BufferedWriter(new FileWriter(filePath, true)));
       }  
       catch( SecurityException securityException )
       {  System.err.println( "You do not have write access to this file." );
@@ -42,7 +45,7 @@ public class Create_txt_file
             record.setMessage( message ); 
             
 
-            output.format("" + record.getName() + " \n" + record.getMessage() );
+            output.format("" + record.getName() + " \n" + record.getMessage() + " \n");
             
          }
             
