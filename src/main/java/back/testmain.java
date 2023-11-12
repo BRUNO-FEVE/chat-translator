@@ -5,7 +5,7 @@ import java.io.IOException;
 import back.entities.User;
 import back.modules.Create_txt_file;
 import back.modules.Read_txt_file;
-
+import static back.modules.Read_txt_file.splitString;
 public class testmain {
     public static void main(String[] args) throws IOException {
         Create_txt_file application = new Create_txt_file();
@@ -25,5 +25,10 @@ public class testmain {
         System.out.println(user.getName());
         System.out.println(user.getMessage());
         System.out.println(user2.getChat());
+
+        String entrada = "Gabriel: Vai se fuder";
+        String[] resultado = splitString(entrada);
+        System.out.println("Usuário: " + resultado[0]);
+        System.out.println("Mensagem: " + resultado[1]);
     }
 }

@@ -76,5 +76,15 @@ public class Read_txt_file {
     public void closeFile()
    {  if( input != null )
          input.close(); 
-   }  
+   }
+   
+   public static String[] splitString(String entrada) {
+        
+        String[] partes = entrada.split(":", 2);
+
+        partes[0] = partes[0].trim();
+        partes[1] = partes[1].trim();
+
+        return partes;
+    }
 }
