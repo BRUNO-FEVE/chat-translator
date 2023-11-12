@@ -1,6 +1,5 @@
 package back.entities;
 
-import components.Chat;
 
 public class User {
     private String Message;
