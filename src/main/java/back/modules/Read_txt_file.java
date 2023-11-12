@@ -78,13 +78,13 @@ public class Read_txt_file {
          input.close(); 
    }
    
-   public static String[] splitString(String entrada) {
+   public static String[] splitString(String in) {
         
-        String[] partes = entrada.split(":", 2);
+        String[] part = in.split(":", 2);
 
-        partes[0] = partes[0].trim();
-        partes[1] = partes[1].trim();
+        part[0] = part[0].trim();
+        part[1] = part[1].trim();
 
-        return partes;
+        return part;
     }
 }
