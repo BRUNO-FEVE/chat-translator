@@ -56,4 +56,5 @@ public class ChatPage extends PageModel {
     public void updateLocale(Locale locale) {
         resourceBundle = ResourceBundle.getBundle("Ex", locale);
     }
+
 }

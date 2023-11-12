@@ -10,11 +10,12 @@ public class PageModel {
     public String superTitle, pageId;
     public JPanel caixa;
     public JMenuBar menuBar;
-    public JMenuItem back, exit, menu, viewHour, createHours;
+    public JMenuItem back, exit, menu;
     public JMenu languageMenu;
-    public JMenuItem englishItem, japaneseItem, portugueseItem, frenchItem, italianItem;
+    public JMenuItem englishItem, germanItem, portugueseItem, frenchItem, italianItem;
 
     public PageModel() {
+
         this.caixa = new JPanel();
 
         menuBar = new JMenuBar();
@@ -28,7 +29,7 @@ public class PageModel {
         menu = new JMenuItem("Menu");
 
         englishItem = new JMenuItem("English");
-        japaneseItem = new JMenuItem("日本語");
+        germanItem = new JMenuItem("Deutsch");
         portugueseItem = new JMenuItem("Português");
         frenchItem = new JMenuItem("Français");
         italianItem = new JMenuItem("Italiano");
@@ -38,13 +39,14 @@ public class PageModel {
         fileMenu.add(exit);
 
         languageMenu.add(englishItem);
-        languageMenu.add(japaneseItem);
+        languageMenu.add(germanItem);
         languageMenu.add(portugueseItem);
         languageMenu.add(frenchItem);
         languageMenu.add(italianItem);
 
         menuBar.add(fileMenu);
         menuBar.add(languageMenu);
+
     }
 
     public JMenuItem getExitMenuItem() {
@@ -61,5 +63,25 @@ public class PageModel {
 
     public JPanel getScreanContent() {
         return this.caixa;
+    }
+
+    public JMenuItem getEnglishItemMenuItem() {
+        return this.englishItem;
+    }
+
+    public JMenuItem getGermanItemMenuItem() {
+        return this.germanItem;
+    }
+
+    public JMenuItem getItalianItemMenuItem() {
+        return this.italianItem;
+    }
+
+    public JMenuItem getPortugueseItemMenuItem() {
+        return this.portugueseItem;
+    }
+
+    public JMenuItem getFrenchItemMenuItem() {
+        return this.frenchItem;
     }
 }

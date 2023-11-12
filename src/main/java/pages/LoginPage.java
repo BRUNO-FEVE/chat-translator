@@ -74,8 +74,6 @@ public class LoginPage extends PageModel implements ActionListener {
         buttonPanel.add(registerButton);
         buttonPanel.add(loginButton);
 
-        super.menuBar.setVisible(true);
-
         super.caixa.add(centerPanel, BorderLayout.CENTER);
         super.caixa.add(buttonPanel, BorderLayout.SOUTH);
         super.caixa.add(logoLabel, BorderLayout.NORTH);
@@ -101,14 +99,6 @@ public class LoginPage extends PageModel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         // Implemente a lógica aqui para lidar com os cliques nos botões
-    }
-
-    public void updateLocale(Locale locale) {
-        resourceBundle = ResourceBundle.getBundle("Ex", locale);
-        loginLabel.setText(resourceBundle.getString("loginLabel"));
-        passwordLabel.setText(resourceBundle.getString("passwordLabel"));
-        registerButton.setText(resourceBundle.getString("registerButton"));
-        loginButton.setText(resourceBundle.getString("loginButton"));
     }
 
     // Getter method to return the screen content

@@ -89,8 +89,6 @@ public class RegisterPage extends PageModel implements ActionListener {
         columnPage.add(column);
         columnPage.add(buttomPanel);
 
-        super.menuBar.setVisible(true);
-
         super.caixa.add(columnPage);
 
         // Adicionando ouvinte de ação para o botão de registro
@@ -132,6 +130,6 @@ public class RegisterPage extends PageModel implements ActionListener {
         passwordLabel.setText(resourceBundle.getString("passwordLabel"));
         confirmLabel.setText(resourceBundle.getString("confirmLabel"));
         registerButton2.setText(resourceBundle.getString("registerButton"));
-        // Adicione outras atualizações necessárias
     }
+
 }

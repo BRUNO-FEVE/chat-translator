@@ -64,4 +64,5 @@ public class FindPage extends PageModel implements ActionListener {
         findButton.setText(resourceBundle.getString("findButton"));
         // Adicione outras atualizações necessárias
     }
+
 }
