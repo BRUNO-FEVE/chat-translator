@@ -44,16 +44,5 @@ public class CaesarCipher {
 
         return decryptedText.toString();
     }
-
-    public static void main(String[] args) {
-        String plaintext = "abcd";
-        int shift = 3;
-        String encryptedText = encrypt(plaintext, shift);
-        String decryptedText = decrypt(encryptedText, shift);
-
-        System.out.println("Original text: " + plaintext);
-        System.out.println("Encrypted text: " + encryptedText);
-        System.out.println("Decrypted text: " + decryptedText);
-    }
 }
 
