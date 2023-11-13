@@ -26,7 +26,7 @@ public class AppRouter extends JFrame {
 
     public AppRouter() throws SQLException {
 
-        this.user = new User("Bruno from Brazil", "11957705558", "pt-br", "/tmp/picture");
+        this.user = new User("brunofodasp@ail.com", "password123");
         Chat chatPage = new Chat(this.user);
 
         this.ConnectToServer();
@@ -53,10 +53,10 @@ public class AppRouter extends JFrame {
             MessageTranslator translator = new MessageTranslator(this.user.language);
 
             ServerChatConnection serverChatConnection = new ServerChatConnection(translator);
-            serverChatConnection.start(this.HOST, this.PORT);
+            serverChatConnection.start(this.HOST, this.PORT, this.user, true);
         } catch (IOException error) {
             System.out.println("Error on Connecting to Server: " + error.getMessage());
         }
-        System.out.println(" -- Client Console Stopped --");
+        System.out.println(" -- Client Console Stopped -- ");
     }
 }

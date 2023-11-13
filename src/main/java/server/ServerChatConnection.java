@@ -18,10 +18,13 @@ public class ServerChatConnection implements Runnable {
         this.translator = translator;
     }
 
-    public void start(String host, int port) throws IOException {
+    public void start(String host, int port, User user, boolean isLogin) throws IOException {
         try {
             clientSocket = new ClientSocket(new Socket(host, port));
             new Thread(this).start();
+
+            initialMessage(isLogin, user);
+
             messageLoop();
         } finally {
             clientSocket.close();
@@ -51,5 +54,13 @@ public class ServerChatConnection implements Runnable {
             message = scanner.nextLine();
             clientSocket.sendMessage(message);
         } while (!message.equalsIgnoreCase("stop"));
+    }
+
+    public void initialMessage(boolean isLogin, User user) {
+        if (isLogin) {
+            clientSocket.sendMessage("Login;" + user.email + ";" + user.password);
+        } else {
+            clientSocket.sendMessage("Register;" + user.name + ";" + user.email + ";" +  user.password + ";" + user.phoneNumber + ";" + user.language);
+        }
     }
 }
