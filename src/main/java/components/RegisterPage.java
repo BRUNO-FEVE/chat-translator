@@ -1,9 +1,10 @@
-package pages;
-
-import components.PageModel;
+package components;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+
+import Interfaces.PageModel;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,7 +23,7 @@ public class RegisterPage extends PageModel implements ActionListener {
     public RegisterPage(Locale locale) {
         super.superTitle = "Registre-se";
 
-        // Configurando o ResourceBundle para o idioma fornecido
+        
         resourceBundle = ResourceBundle.getBundle("Ex", locale);
 
         nameLabel = new JLabel(resourceBundle.getString("nameLabel"));
@@ -39,7 +40,7 @@ public class RegisterPage extends PageModel implements ActionListener {
 
         registerButton2 = new JButton(resourceBundle.getString("registerButton"));
 
-        // Layout
+        
         EmptyBorder padding = new EmptyBorder(15, 0, 15, 0);
 
         super.caixa.setLayout(new FlowLayout());
@@ -91,7 +92,7 @@ public class RegisterPage extends PageModel implements ActionListener {
 
         super.caixa.add(columnPage);
 
-        // Adicionando ouvinte de ação para o botão de registro
+        
         registerButton2.addActionListener(this);
     }
 
@@ -119,7 +120,7 @@ public class RegisterPage extends PageModel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        // Implemente a lógica aqui para lidar com o clique no botão de registro
+        
     }
 
     public void updateLocale(Locale locale) {

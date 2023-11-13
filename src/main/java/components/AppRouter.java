@@ -1,4 +1,4 @@
-package pages;
+package components;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import Interfaces.PageModel;
 import Interfaces.User;
-import components.PageModel;
 import back.entities.ChatUser;
 
 public class AppRouter extends JFrame implements ActionListener {
@@ -18,7 +18,6 @@ public class AppRouter extends JFrame implements ActionListener {
     private JPanel content, loginPanel, registerPanel, chatPanel, findPanel;
     private Container caixa;
     private JMenuBar menuBar;
-    public JMenuItem englishItem, germanItem, portugueseItem, frenchItem, italianItem;
 
     private ArrayList<PageModel> lastPages = new ArrayList<>();
 
@@ -26,6 +25,7 @@ public class AppRouter extends JFrame implements ActionListener {
     private RegisterPage registerContent;
     private ChatPage chatContent;
     private FindPage findContent;
+    private LanguagePage languageContent;
 
     private User currentUser;
 
@@ -34,19 +34,20 @@ public class AppRouter extends JFrame implements ActionListener {
     public AppRouter() {
         setTitle(title);
 
-        // Initialize resourceBundle first
+        
+        
+        languageContent = new LanguagePage();
         resourceBundle = ResourceBundle.getBundle("Ex", Locale.getDefault());
-
         loginContent = new LoginPage(resourceBundle.getLocale());
 
-        // Initialize other components
+        
         caixa = getContentPane();
         caixa.setLayout(new FlowLayout());
 
         loginPanel = new JPanel();
         loginPanel.add(loginContent.getScreenContent());
 
-        // Create the rest of the components
+        
         registerContent = new RegisterPage(resourceBundle.getLocale());
         currentUser = new User("Carlos Costa", "123456789", "Português", "path/to/picture.jpg");
         chatContent = new ChatPage(currentUser, resourceBundle.getLocale());
@@ -74,31 +75,11 @@ public class AppRouter extends JFrame implements ActionListener {
         findContent.getBackMenuItem().addActionListener(this);
         chatContent.getBackMenuItem().addActionListener(this);
         registerContent.getBackMenuItem().addActionListener(this);
-
-        findContent.getEnglishItemMenuItem().addActionListener(this);
-        chatContent.getEnglishItemMenuItem().addActionListener(this);
-        registerContent.getEnglishItemMenuItem().addActionListener(this);
-
-        findContent.getGermanItemMenuItem().addActionListener(this);
-        chatContent.getGermanItemMenuItem().addActionListener(this);
-        registerContent.getGermanItemMenuItem().addActionListener(this);
-
-        findContent.getItalianItemMenuItem().addActionListener(this);
-        chatContent.getItalianItemMenuItem().addActionListener(this);
-        registerContent.getItalianItemMenuItem().addActionListener(this);
-
-        findContent.getPortugueseItemMenuItem().addActionListener(this);
-        chatContent.getPortugueseItemMenuItem().addActionListener(this);
-        registerContent.getPortugueseItemMenuItem().addActionListener(this);
-
-        findContent.getFrenchItemMenuItem().addActionListener(this);
-        chatContent.getFrenchItemMenuItem().addActionListener(this);
-        registerContent.getFrenchItemMenuItem().addActionListener(this);
         
         this.content = loginPanel;
         caixa.add(content);
 
-        // Set the menu bar for the initial page
+        
         setJMenuBar(loginContent.menuBar);
 
         pack();
@@ -117,7 +98,7 @@ public class AppRouter extends JFrame implements ActionListener {
         this.caixa.removeAll();
         this.caixa.add(page.getScreanContent());
 
-        // Set the menu bar directly for the frame
+        
         setJMenuBar(page.menuBar);
 
         setTitle(title);
@@ -156,8 +137,6 @@ public class AppRouter extends JFrame implements ActionListener {
                 || e.getSource() == registerContent.getBackMenuItem()
                 || e.getSource() == loginContent.getBackMenuItem()) {
             if (this.lastPages.size() >= 2) {
-                // Check if the second-to-last page is ChatPage
-                // If yes, go back to LoginPage instead of the second-to-last page
                 if (this.lastPages.get(this.lastPages.size() - 2) instanceof ChatPage) {
                     this.updatePage(loginContent);
                 } else {
@@ -168,22 +147,6 @@ public class AppRouter extends JFrame implements ActionListener {
             }
         }
 
-        if (e.getSource() == englishItem) {
-            setLocaleAndRefresh(Locale.ENGLISH);
-        } else if (e.getSource() == germanItem) {
-            setLocaleAndRefresh(Locale.GERMAN);
-        } else if (e.getSource() == portugueseItem) {
-            setLocaleAndRefresh(new Locale("pt", "BR"));
-        } else if (e.getSource() == frenchItem) {
-            setLocaleAndRefresh(Locale.FRENCH);
-        } else if (e.getSource() == italianItem) {
-            setLocaleAndRefresh(Locale.ITALIAN);
-        }
-    }
-
-    private void setLocaleAndRefresh(Locale locale) {
-        resourceBundle = ResourceBundle.getBundle("Ex", locale);
-        setLocale(locale);
-
+        
     }
 }

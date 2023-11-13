@@ -1,8 +1,8 @@
-package pages;
+package components;
 
+import Interfaces.PageModel;
 import Interfaces.User;
 import back.modules.Read_txt_file;
-import components.PageModel;
 import back.entities.ChatUser;
 
 import javax.swing.*;
@@ -27,9 +27,9 @@ public class ChatPage extends PageModel {
     public ResourceBundle resourceBundle;
 
     public ChatPage(User user, Locale locale) {
-        super.superTitle = "Chat";
+        
 
-        // Configurando o ResourceBundle para o idioma fornecido
+        
         resourceBundle = ResourceBundle.getBundle("Ex", locale);
 
         super.caixa.setLayout(new BorderLayout());

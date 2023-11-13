@@ -1,9 +1,10 @@
-package pages;
-
-import components.PageModel;
+package components;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+
+import Interfaces.PageModel;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,7 +27,7 @@ public class LoginPage extends PageModel implements ActionListener {
     public LoginPage(Locale locale) {
         super.superTitle = "Login";
 
-        // Configurando o ResourceBundle para o idioma fornecido
+        
         resourceBundle = ResourceBundle.getBundle("Ex", locale);
 
         loginLabel = new JLabel(resourceBundle.getString("loginLabel"));
@@ -39,14 +40,14 @@ public class LoginPage extends PageModel implements ActionListener {
         loginButton = new JButton(resourceBundle.getString("loginButton"));
 
         EmptyBorder margin = new EmptyBorder(50, 0, 0, 0);
-        // Image
+        
         logoIcon = new ImageIcon("./assets/logoMaua.png");
         scaledImage = logoIcon.getImage().getScaledInstance(200, 100, Image.SCALE_SMOOTH);
         scaledIcon = new ImageIcon(scaledImage);
         logoLabel = new JLabel(scaledIcon);
         logoLabel.setBorder(margin);
 
-        // Button Layout
+        
         Dimension buttonSize = new Dimension(110, 40);
         registerButton.setPreferredSize(buttonSize);
         loginButton.setPreferredSize(buttonSize);
@@ -57,7 +58,7 @@ public class LoginPage extends PageModel implements ActionListener {
         JPanel buttonPanel = new JPanel(new FlowLayout());
         centerPanel.setBorder(margin);
 
-        // Grid Layout
+        
         GridBagConstraints gbc = new GridBagConstraints();
 
         gbc.gridx = 0;
@@ -78,7 +79,7 @@ public class LoginPage extends PageModel implements ActionListener {
         super.caixa.add(buttonPanel, BorderLayout.SOUTH);
         super.caixa.add(logoLabel, BorderLayout.NORTH);
 
-        // Adicionando ouvintes de ação para os botões
+        
         registerButton.addActionListener(this);
         loginButton.addActionListener(this);
     }
@@ -98,10 +99,10 @@ public class LoginPage extends PageModel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        // Implemente a lógica aqui para lidar com os cliques nos botões
+        
     }
 
-    // Getter method to return the screen content
+    
     public JPanel getScreenContent() {
         return super.caixa;
     }

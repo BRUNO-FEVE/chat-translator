@@ -1,8 +1,9 @@
-package pages;
-
-import components.PageModel;
+package components;
 
 import javax.swing.*;
+
+import Interfaces.PageModel;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,19 +21,19 @@ public class FindPage extends PageModel implements ActionListener {
     public FindPage(Locale locale) {
         super();
 
-        // Configurando o ResourceBundle para o idioma fornecido
+        
         resourceBundle = ResourceBundle.getBundle("Ex", locale);
 
         conversationLabel = new JLabel(resourceBundle.getString("conversationLabel"));
-        chatTextField = new JTextField(15); // Ajuste o tamanho conforme necessário
+        chatTextField = new JTextField(15); 
         findButton = new JButton(resourceBundle.getString("findButton"));
 
-        // Configuração do layout usando GridBagLayout
+        
         caixa.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.insets = new Insets(10, 10, 10, 10); // Ajuste a folga conforme necessário
+        gbc.insets = new Insets(10, 10, 10, 10); 
         caixa.add(conversationLabel, gbc);
 
         gbc.gridy = 1;
@@ -41,7 +42,7 @@ public class FindPage extends PageModel implements ActionListener {
         gbc.gridy = 2;
         caixa.add(findButton, gbc);
 
-        // Adicionando um ouvinte de ação para o botão
+        
         findButton.addActionListener(this);
     }
 
@@ -55,14 +56,14 @@ public class FindPage extends PageModel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        // Implemente a lógica aqui para lidar com o clique no botão
+        
     }
 
     public void updateLocale(Locale locale) {
         resourceBundle = ResourceBundle.getBundle("Ex", locale);
         conversationLabel.setText(resourceBundle.getString("conversationLabel"));
         findButton.setText(resourceBundle.getString("findButton"));
-        // Adicione outras atualizações necessárias
+        
     }
 
 }
