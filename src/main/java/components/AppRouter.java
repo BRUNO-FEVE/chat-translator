@@ -1,40 +1,71 @@
 package components;
 
+import Interfaces.User;
+import components.Chat;
+import infra.ConnectDB;
+import server.MessageTranslator;
+import server.ServerChatConnection;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Locale;
-import java.util.ResourceBundle;
+import java.util.function.Function;
 
-import Interfaces.PageModel;
-import Interfaces.User;
-import back.entities.ChatUser;
+public class AppRouter extends JFrame implements ActionListener, Runnable {
 
-public class AppRouter extends JFrame implements ActionListener {
+    private final String HOST = "127.0.0.1";
+    private final int PORT = 4000;
+
+    public Connection connection;
+    public ConnectDB dataBase;
+    public Container box;
+
+    public User user = new User();
+
+    public String request;
+
+    public Chat chatPage;
+
+    public ArrayList<String> messages = new ArrayList<String>();
+
+    public ServerChatConnection server;
+
+    // novo
 
     private String title = "Login";
     private JPanel content, loginPanel, registerPanel, chatPanel, findPanel;
     private Container caixa;
     private JMenuBar menuBar;
-
+    
     private ArrayList<PageModel> lastPages = new ArrayList<>();
 
-    private LoginPage loginContent;
     private RegisterPage registerContent;
     private ChatPage chatContent;
     private FindPage findContent;
     private LanguagePage languageContent;
-
-    private User currentUser;
+    private LoginPage loginContent;
 
     private ResourceBundle resourceBundle;
 
     public AppRouter() {
         setTitle(title);
+//        this.user = new User("brunofodasp@email", "senha123");
+//        this.user = new User( "BrunoPokas", "brunofodasp@email", "senha123", "11957705558", "chinese");
+        chatPage = new Chat(this.user);
 
-        
+        JPanel chat = new JPanel();
+
+        chat.add(chatPage.content);
+
+        this.login("brunofodasp@email", "senha123");
+
+        this.box = getContentPane();
+        box.setLayout(new FlowLayout());
         
         languageContent = new LanguagePage();
         resourceBundle = ResourceBundle.getBundle("Ex", Locale.getDefault());
@@ -81,6 +112,8 @@ public class AppRouter extends JFrame implements ActionListener {
 
         
         setJMenuBar(loginContent.menuBar);
+
+        chatPage.sendButton.addActionListener(this);
 
         pack();
         setLocationRelativeTo(null);
@@ -130,12 +163,17 @@ public class AppRouter extends JFrame implements ActionListener {
                 || e.getSource() == registerContent.getExitMenuItem()
                 || e.getSource() == loginContent.getExitMenuItem()) {
             this.updatePage(loginContent);
-
+        } else if (event.getSource() == chatPage.sendButton) {
+            String message = chatPage.messageField.getText();
+            messages.add(message);
+            server.sendMessage(message);
         }
 
-        if (e.getSource() == findContent.getBackMenuItem() || e.getSource() == chatContent.getBackMenuItem()
-                || e.getSource() == registerContent.getBackMenuItem()
-                || e.getSource() == loginContent.getBackMenuItem()) {
+        if (e.getSource() == findContent.getBackMenuItem() || 
+            e.getSource() == chatContent.getBackMenuItem() || 
+            e.getSource() == registerContent.getBackMenuItem() ||
+            e.getSource() == loginContent.getBackMenuItem()
+            ) {
             if (this.lastPages.size() >= 2) {
                 if (this.lastPages.get(this.lastPages.size() - 2) instanceof ChatPage) {
                     this.updatePage(loginContent);
@@ -144,9 +182,19 @@ public class AppRouter extends JFrame implements ActionListener {
                 }
             } else {
                 this.updatePage(loginContent);
-            }
+            }}
         }
 
-        
+
+    @Override
+    public void run() {
+    }
+
+    private void login(String email, String password) {
+        this.request = "Login;" + email + ";" + password;
+    }
+
+    public void register(String name, String email, String password, String phoneNumber, String language) {
+        this.request = "Register;" + name + ";" + email + ";" +  password + ";" + phoneNumber + ";" + language;
     }
 }
