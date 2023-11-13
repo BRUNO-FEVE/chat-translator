@@ -17,6 +17,7 @@ public class ServerChatConnection implements Runnable {
     public MessageTranslator translator;
 
     public String userData;
+    public boolean responseStatus = false;
 
     private UserDataCallback callback;
 
@@ -37,12 +38,10 @@ public class ServerChatConnection implements Runnable {
         this.callback = callback;
     }
 
-    public void start(String host, int port, String request) throws IOException {
+    public void start(String host, int port) throws IOException {
         try {
             clientSocket = new ClientSocket(new Socket(host, port));
             new Thread(this).start();
-
-            initialMessage(request);
 
             messageLoop();
         } finally {
@@ -59,6 +58,7 @@ public class ServerChatConnection implements Runnable {
             String[] serverData = message.split(";");
             if (serverData[0].equals("Response")) {
                 this.userData = message;
+                if (!serverData[1].equalsIgnoreCase("Failed")) this.responseStatus = true;
                 if (this.callback != null) {
                     try {
                         this.callback.onUserDataReceived(this.userData);
@@ -96,9 +96,5 @@ public class ServerChatConnection implements Runnable {
             message = scanner.nextLine();
             clientSocket.sendMessage(message);
         } while (!message.equalsIgnoreCase("stop"));
-    }
-
-    public void initialMessage(String message) {
-        clientSocket.sendMessage(message);
     }
 }

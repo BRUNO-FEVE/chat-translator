@@ -23,19 +23,21 @@ public class App {
             serverChatConnection.setUserDataCallback(userData -> {
                 String[] userDataDivided = userData.split(";");
 
-                app.user.name = userDataDivided[1];
-                app.user.email = userDataDivided[2];
-                app.user.password = userDataDivided[3];
-                app.user.phoneNumber = userDataDivided[4];
-                app.user.language = userDataDivided[5];
+                if (!userDataDivided[1].equalsIgnoreCase("Failed")) {
+                    app.user.name = userDataDivided[1];
+                    app.user.email = userDataDivided[2];
+                    app.user.password = userDataDivided[3];
+                    app.user.phoneNumber = userDataDivided[4];
+                    app.user.language = userDataDivided[5];
 
-                MessageTranslator translator = new MessageTranslator(app.user.language);
-                serverChatConnection.translator = translator;
+                    MessageTranslator translator = new MessageTranslator(app.user.language);
+                    serverChatConnection.translator = translator;
+                }
             });
 
             app.server = serverChatConnection;
 
-            serverChatConnection.start(this.HOST, this.PORT, app.request);
+            serverChatConnection.start(this.HOST, this.PORT);
         } catch (IOException error) {
             System.out.println("Error on Connecting to Server: " + error.getMessage());
         }

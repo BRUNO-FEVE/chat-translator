@@ -1,5 +1,6 @@
 package components;
 
+import Interfaces.PageModel;
 import Interfaces.User;
 import components.Chat;
 import infra.ConnectDB;
@@ -14,7 +15,9 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.function.Function;
+import java.util.Locale;
+import java.util.ResourceBundle;
+import back.entities.ChatUser;
 
 public class AppRouter extends JFrame implements ActionListener, Runnable {
 
@@ -42,7 +45,7 @@ public class AppRouter extends JFrame implements ActionListener, Runnable {
     private Container caixa;
     private JMenuBar menuBar;
     
-    private ArrayList<PageModel> lastPages = new ArrayList<>();
+    private ArrayList<PageModel> lastPages = new ArrayList<PageModel>();
 
     private RegisterPage registerContent;
     private ChatPage chatContent;
@@ -51,6 +54,8 @@ public class AppRouter extends JFrame implements ActionListener, Runnable {
     private LoginPage loginContent;
 
     private ResourceBundle resourceBundle;
+
+    public boolean loginValidated = false;
 
     public AppRouter() {
         setTitle(title);
@@ -80,8 +85,8 @@ public class AppRouter extends JFrame implements ActionListener, Runnable {
 
         
         registerContent = new RegisterPage(resourceBundle.getLocale());
-        currentUser = new User("Carlos Costa", "123456789", "Português", "path/to/picture.jpg");
-        chatContent = new ChatPage(currentUser, resourceBundle.getLocale());
+        chatContent = new ChatPage(user, resourceBundle.getLocale());
+
         ChatUser chatUser = new ChatUser();
         chatContent.updateMessages(chatUser);
         findContent = new FindPage(resourceBundle.getLocale());
@@ -96,7 +101,7 @@ public class AppRouter extends JFrame implements ActionListener, Runnable {
 
         loginContent.getRegisterButton().addActionListener(this);
         loginContent.getLoginButton().addActionListener(this);
-        registerContent.getRegisterButton2().addActionListener(this);
+        registerContent.registerUserButton.addActionListener(this);
         findContent.getFindButton().addActionListener(this);
 
         findContent.getExitMenuItem().addActionListener(this);
@@ -125,7 +130,7 @@ public class AppRouter extends JFrame implements ActionListener, Runnable {
 
     public void updatePage(PageModel page) {
         this.lastPages.add(page);
-        System.out.println(lastPages);
+//        System.out.println(lastPages);
         this.title = page.superTitle;
 
         this.caixa.removeAll();
@@ -151,9 +156,26 @@ public class AppRouter extends JFrame implements ActionListener, Runnable {
             this.updatePage(registerContent);
             loginContent.cleanFields();
         } else if (e.getSource() == loginContent.getLoginButton()) {
-            this.updatePage(findContent);
-            loginContent.cleanFields();
-        } else if (e.getSource() == registerContent.getRegisterButton2()) {
+            String requestLogin = loginContent.getLoginProps();
+            this.server.sendMessage(requestLogin);
+
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException ex) {
+                throw new RuntimeException(ex);
+            }
+
+            if (this.server.responseStatus) {
+                updatePage(findContent);
+                loginContent.cleanFields();
+            } else {
+                JOptionPane.showMessageDialog(null, "Senha/Email incorretos!", "Aviso", JOptionPane.WARNING_MESSAGE);
+            }
+        } else if (e.getSource() == registerContent.registerUserButton) {
+            String userData = registerContent.getNewUser();
+            System.out.println(userData);
+            this.server.sendMessage(userData);
+
             this.updatePage(loginContent);
             loginContent.cleanFields();
         } else if (e.getSource() == findContent.getFindButton()) {
@@ -163,7 +185,7 @@ public class AppRouter extends JFrame implements ActionListener, Runnable {
                 || e.getSource() == registerContent.getExitMenuItem()
                 || e.getSource() == loginContent.getExitMenuItem()) {
             this.updatePage(loginContent);
-        } else if (event.getSource() == chatPage.sendButton) {
+        } else if (e.getSource() == chatPage.sendButton) {
             String message = chatPage.messageField.getText();
             messages.add(message);
             server.sendMessage(message);

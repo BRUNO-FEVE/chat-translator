@@ -18,7 +18,7 @@ public class LoginPage extends PageModel implements ActionListener {
     private Image scaledImage;
 
     public JPasswordField passwordField;
-    public JTextField raField;
+    public JTextField emailField;
     public JButton loginButton, registerButton;
     public BorderLayout PageLayout = new BorderLayout(10, 10);
 
@@ -33,7 +33,7 @@ public class LoginPage extends PageModel implements ActionListener {
         loginLabel = new JLabel(resourceBundle.getString("loginLabel"));
         passwordLabel = new JLabel(resourceBundle.getString("passwordLabel"));
 
-        raField = new JTextField("", 30);
+        emailField = new JTextField("", 30);
         passwordField = new JPasswordField("", 30);
 
         registerButton = new JButton(resourceBundle.getString("registerButton"));
@@ -68,7 +68,7 @@ public class LoginPage extends PageModel implements ActionListener {
         centerPanel.add(passwordLabel, gbc);
         gbc.gridx = 1;
         gbc.gridy = 0;
-        centerPanel.add(raField, gbc);
+        centerPanel.add(emailField, gbc);
         gbc.gridy = 1;
         centerPanel.add(passwordField, gbc);
 
@@ -84,8 +84,12 @@ public class LoginPage extends PageModel implements ActionListener {
         loginButton.addActionListener(this);
     }
 
+    public String getLoginProps() {
+        return "Login;" + this.emailField.getText() + ";" + new String(this.passwordField.getPassword());
+    }
+
     public void cleanFields() {
-        this.raField.setText("");
+        this.emailField.setText("");
         this.passwordField.setText("");
     }
 
