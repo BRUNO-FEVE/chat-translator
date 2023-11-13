@@ -1,21 +1,21 @@
 package back.entities;
 
 
-public class User {
+public class ChatUser {
     private String Message;
     private String Name;
     private String Chat;
 
     
-    public User() {
+    public ChatUser() {
         this("", "");
     }
     
-    public User(String chat) {
+    public ChatUser(String chat) {
         setChat(chat);
     }
 
-    public User(String name, String message) {
+    public ChatUser(String name, String message) {
         setName(name);
         setMessage(message);  
   }  

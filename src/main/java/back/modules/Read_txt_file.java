@@ -7,7 +7,7 @@ import java.io.FileNotFoundException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
-import back.entities.User;
+import back.entities.ChatUser;
 
 public class Read_txt_file {
 
@@ -24,7 +24,7 @@ public class Read_txt_file {
       }  
    }  
 
-    public void readFile (User user) {
+    public void readFile (ChatUser user) {
         
         int shift = 3;
         
@@ -48,7 +48,7 @@ public class Read_txt_file {
         } 
     }
     
-    public void readWholefile(User user) {
+    public void readWholefile(ChatUser user) {
         int shift = 3;
         StringBuilder decryptedChat = new StringBuilder();
     

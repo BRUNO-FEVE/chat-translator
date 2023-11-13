@@ -1,14 +1,21 @@
 package pages;
 
 import Interfaces.User;
+import back.modules.Read_txt_file;
 import components.PageModel;
+import back.entities.ChatUser;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.ResourceBundle;
+
 
 public class ChatPage extends PageModel {
 
@@ -56,5 +63,21 @@ public class ChatPage extends PageModel {
     public void updateLocale(Locale locale) {
         resourceBundle = ResourceBundle.getBundle("Ex", locale);
     }
+
+    public void updateMessages(ChatUser chatuser) {
+        Read_txt_file fileReader = new Read_txt_file();
+        fileReader.openFile();
+        fileReader.readWholefile(chatuser);
+        fileReader.closeFile();
+    
+        DefaultTableModel model = (DefaultTableModel) messageTable.getModel();
+        model.setRowCount(0); 
+    
+        for (String line : chatuser.getChat().split("\n")) {
+            String[] parts = Read_txt_file.splitString(line);
+            model.addRow(parts);
+        }
+    }
+    
 
 }

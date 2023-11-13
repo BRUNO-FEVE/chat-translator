@@ -11,7 +11,7 @@ import java.util.FormatterClosedException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
-import back.entities.User;
+import back.entities.ChatUser;
 import static back.modules.CaesarCipher.encrypt;
 
 public class Create_txt_file
@@ -31,9 +31,9 @@ public class Create_txt_file
       } 
    } 
 
-   public void addRecords(User userInput)   
+   public void addRecords(ChatUser userInput)   
    {  
-      User record = new User();
+      ChatUser record = new ChatUser();
       Scanner sc = new Scanner(System.in);
       int shift = 3;
       String name = encrypt(userInput.getName(), shift);
@@ -45,7 +45,7 @@ public class Create_txt_file
             record.setMessage( message ); 
             
 
-            output.format("" + record.getName() + " \n" + record.getMessage() + " \n");
+            output.format("" + record.getName() + ":" + record.getMessage() + " \n");
             
          }
             

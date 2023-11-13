@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 
 import Interfaces.User;
 import components.PageModel;
+import back.entities.ChatUser;
 
 public class AppRouter extends JFrame implements ActionListener {
 
@@ -49,6 +50,8 @@ public class AppRouter extends JFrame implements ActionListener {
         registerContent = new RegisterPage(resourceBundle.getLocale());
         currentUser = new User("Carlos Costa", "123456789", "Português", "path/to/picture.jpg");
         chatContent = new ChatPage(currentUser, resourceBundle.getLocale());
+        ChatUser chatUser = new ChatUser();
+        chatContent.updateMessages(chatUser);
         findContent = new FindPage(resourceBundle.getLocale());
 
         registerPanel = new JPanel();
@@ -72,6 +75,26 @@ public class AppRouter extends JFrame implements ActionListener {
         chatContent.getBackMenuItem().addActionListener(this);
         registerContent.getBackMenuItem().addActionListener(this);
 
+        findContent.getEnglishItemMenuItem().addActionListener(this);
+        chatContent.getEnglishItemMenuItem().addActionListener(this);
+        registerContent.getEnglishItemMenuItem().addActionListener(this);
+
+        findContent.getGermanItemMenuItem().addActionListener(this);
+        chatContent.getGermanItemMenuItem().addActionListener(this);
+        registerContent.getGermanItemMenuItem().addActionListener(this);
+
+        findContent.getItalianItemMenuItem().addActionListener(this);
+        chatContent.getItalianItemMenuItem().addActionListener(this);
+        registerContent.getItalianItemMenuItem().addActionListener(this);
+
+        findContent.getPortugueseItemMenuItem().addActionListener(this);
+        chatContent.getPortugueseItemMenuItem().addActionListener(this);
+        registerContent.getPortugueseItemMenuItem().addActionListener(this);
+
+        findContent.getFrenchItemMenuItem().addActionListener(this);
+        chatContent.getFrenchItemMenuItem().addActionListener(this);
+        registerContent.getFrenchItemMenuItem().addActionListener(this);
+        
         this.content = loginPanel;
         caixa.add(content);
 
