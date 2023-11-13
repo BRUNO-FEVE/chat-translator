@@ -13,7 +13,7 @@ public class LanguagePage extends PageModel implements ActionListener {
 private ResourceBundle resourcebundle = null;
 
 public LanguagePage() {
-    int op = Integer.parseInt(JOptionPane.showInputDialog("Idioma - Language - Langue\n\n1- Portugues\n2- English\n3- Francaise\n4- Italian\n5- Deutsch"));
+    int op = Integer.parseInt(JOptionPane.showInputDialog("Select the language\n\n1- Portugues\n2- English\n3- Francaise\n4- Italian\n5- Deutsch"));
 
     switch (op) {
         case 1:
