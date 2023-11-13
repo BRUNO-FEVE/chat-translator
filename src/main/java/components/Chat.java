@@ -13,7 +13,8 @@ public class Chat extends PageInterface {
     public ArrayList<String> messages;
     private DefaultTableModel tableModel;
     private JTable messageTable;
-    private JTextField messageField;
+    public JTextField messageField;
+    public JButton sendButton;
 
     public Chat(User user) {
         super.superTitle = "Chat";
@@ -41,7 +42,7 @@ public class Chat extends PageInterface {
 
         JPanel bottomPanel = new JPanel(new BorderLayout());
         messageField = new JTextField();
-        JButton sendButton = new JButton("Send");
+        sendButton = new JButton("Send");
         bottomPanel.add(messageField, BorderLayout.CENTER);
         bottomPanel.add(sendButton, BorderLayout.EAST);
         super.content.add(bottomPanel, BorderLayout.SOUTH);

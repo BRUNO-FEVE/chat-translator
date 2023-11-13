@@ -11,14 +11,20 @@ import java.io.IOException;
 
 public class MessageTranslator {
 
-    private String language;
+    public String language;
+
+    public MessageTranslator() {
+    }
 
     public MessageTranslator(String language) {
         this.language = language;
     }
 
     public String translate(String message) throws IOException {
-        var OPENAI_API_KEY = "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";
+        if (message.split(";").length > 1) return null;
+
+        System.out.println("Traduzindo...");
+        var OPENAI_API_KEY = "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";
 
         var BODY_REQUEST = String.format("""
             {
@@ -59,7 +65,6 @@ public class MessageTranslator {
 
             return content;
         }
-        return "Error on Translating";
-
+        return responseBody;
     }
 }

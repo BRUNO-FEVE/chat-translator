@@ -1,11 +1,9 @@
 package org.example;
 
-import components.AppRouter;
-
-import java.sql.SQLException;
+import java.io.IOException;
 
 public class Main {
-    public static void main(String[] args) throws SQLException {
-        new AppRouter();
+    public static void main(String[] args) throws IOException {
+        new App();
     }
 }

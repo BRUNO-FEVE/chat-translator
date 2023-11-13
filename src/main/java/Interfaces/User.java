@@ -20,4 +20,10 @@ public class User {
         this.password = password;
     }
 
+    public User() {}
+
+    public String getUserData() {
+        return this.name + ";" + this.email + ";" + this.password + ";" + this.phoneNumber + ";" + this.language;
+    }
+
 }

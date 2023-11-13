@@ -8,37 +8,52 @@ import server.ServerChatConnection;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.function.Function;
 
-public class AppRouter extends JFrame {
+public class AppRouter extends JFrame implements ActionListener, Runnable {
+
+    private final String HOST = "127.0.0.1";
+    private final int PORT = 4000;
 
     public Connection connection;
     public ConnectDB dataBase;
     public JPanel content;
     public Container box;
 
-    private final String HOST = "127.0.0.1";
-    private final int PORT = 4000;
+    public User user = new User();
 
-    private User user;
+    public String request;
 
-    public AppRouter() throws SQLException {
+    public Chat chatPage;
 
-        this.user = new User("brunofodasp@ail.com", "password123");
-        Chat chatPage = new Chat(this.user);
+    public ArrayList<String> messages = new ArrayList<String>();
 
-        this.ConnectToServer();
+    public ServerChatConnection server;
+    public AppRouter() {
+
+//        this.user = new User("brunofodasp@email", "senha123");
+//        this.user = new User( "BrunoPokas", "brunofodasp@email", "senha123", "11957705558", "chinese");
+        chatPage = new Chat(this.user);
 
         JPanel chat = new JPanel();
+
         chat.add(chatPage.content);
+
+        this.login("brunofodasp@email", "senha123");
 
         this.box = getContentPane();
         box.setLayout(new FlowLayout());
 
         this.content = chat;
         box.add(content);
+
+        chatPage.sendButton.addActionListener(this);
 
         pack();
         setLocationRelativeTo(null);
@@ -47,16 +62,24 @@ public class AppRouter extends JFrame {
         setVisible(true);
     }
 
-    private void ConnectToServer() {
-        System.out.println(" -- Client Console -- ");
-        try {
-            MessageTranslator translator = new MessageTranslator(this.user.language);
-
-            ServerChatConnection serverChatConnection = new ServerChatConnection(translator);
-            serverChatConnection.start(this.HOST, this.PORT, this.user, true);
-        } catch (IOException error) {
-            System.out.println("Error on Connecting to Server: " + error.getMessage());
+    @Override
+    public void actionPerformed(ActionEvent event) {
+        if (event.getSource() == chatPage.sendButton) {
+            String message = chatPage.messageField.getText();
+            messages.add(message);
+            server.sendMessage(message);
         }
-        System.out.println(" -- Client Console Stopped -- ");
+    }
+
+    @Override
+    public void run() {
+    }
+
+    private void login(String email, String password) {
+        this.request = "Login;" + email + ";" + password;
+    }
+
+    public void register(String name, String email, String password, String phoneNumber, String language) {
+        this.request = "Register;" + name + ";" + email + ";" +  password + ";" + phoneNumber + ";" + language;
     }
 }
