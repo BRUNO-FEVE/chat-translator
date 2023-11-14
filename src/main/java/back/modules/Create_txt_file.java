@@ -16,7 +16,7 @@ import static back.modules.CaesarCipher.encrypt;
 
 public class Create_txt_file
 {  private Formatter output; 
-   private String filePath = "src/main/java/back/Chat_Messages.txt"; 
+   private String filePath = "src/main/java/back/Chat_Messages.txt";
    public void openFile() throws IOException  
    {  try
       {  output = new Formatter(new BufferedWriter(new FileWriter(filePath, true)));
@@ -63,7 +63,13 @@ public class Create_txt_file
    public void closeFile() 
    {  if ( output != null )
          output.close();
-   }  
+   }
+
+   public void addMessage(ChatUser message) throws IOException {
+       this.openFile();
+       this.addRecords(message);
+       this.closeFile();
+   }
 }  
 
 

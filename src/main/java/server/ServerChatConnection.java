@@ -1,10 +1,16 @@
 package server;
 
 import Interfaces.User;
+import back.entities.ChatUser;
+import back.modules.Create_txt_file;
+import back.modules.Read_txt_file;
+import components.Chat;
+import components.ChatPage;
 
 import java.io.IOException;
 import java.net.Socket;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 
@@ -20,6 +26,9 @@ public class ServerChatConnection implements Runnable {
     public boolean responseStatus = false;
 
     private UserDataCallback callback;
+
+    public ChatPage chat;
+    public ArrayList<ChatUser> messages = new ArrayList<ChatUser>();
 
     public ServerChatConnection(MessageTranslator translator) {
         this.scanner = new Scanner(System.in);
@@ -53,6 +62,7 @@ public class ServerChatConnection implements Runnable {
     public void run() {
         String message;
         while ((message = clientSocket.getMessage()) != null) {
+            System.out.println("Crua -> " + message);
             String finalMessage;
 
             String[] serverData = message.split(";");
@@ -69,11 +79,23 @@ public class ServerChatConnection implements Runnable {
             }
 
             if (translator != null && message.split(";").length < 2) {
+                String[] messages = message.split(":");
                 try {
-                    finalMessage = this.translator.translate(message);
+                    finalMessage = this.translator.translate(messages[1]);
+
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
+                ChatUser userMessage = new ChatUser(messages[0], finalMessage);
+                Create_txt_file file = new Create_txt_file();
+                chat.addMessages(userMessage);
+
+                try {
+                    file.addMessage(userMessage);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
                 System.out.println("Message: " + finalMessage);
                 System.out.print("Write message (or <stop> to end): ");
             } else if (message.split(";").length < 2){

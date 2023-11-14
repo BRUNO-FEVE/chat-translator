@@ -24,7 +24,7 @@ public class MessageTranslator {
         if (message.split(";").length > 1) return null;
 
         System.out.println("Traduzindo...");
-        var OPENAI_API_KEY = "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";
+        var OPENAI_API_KEY = "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";
 
         var BODY_REQUEST = String.format("""
             {
@@ -36,7 +36,7 @@ public class MessageTranslator {
                     },
                     {
                         "role": "user",
-                        "content": "Translate the text to the %s language. Text: %s"
+                        "content": "Translate the text to the %s language. Only answer the translated text, NOTHING MORE! Text: %s"
                     }
                 ]
             }

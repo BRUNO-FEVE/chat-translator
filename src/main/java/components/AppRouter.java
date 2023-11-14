@@ -2,6 +2,7 @@ package components;
 
 import Interfaces.PageModel;
 import Interfaces.User;
+import back.modules.Create_txt_file;
 import components.Chat;
 import infra.ConnectDB;
 import server.MessageTranslator;
@@ -61,13 +62,6 @@ public class AppRouter extends JFrame implements ActionListener, Runnable {
         setTitle(title);
 //        this.user = new User("brunofodasp@email", "senha123");
 //        this.user = new User( "BrunoPokas", "brunofodasp@email", "senha123", "11957705558", "chinese");
-        chatPage = new Chat(this.user);
-
-        JPanel chat = new JPanel();
-
-        chat.add(chatPage.content);
-
-        this.login("brunofodasp@email", "senha123");
 
         this.box = getContentPane();
         box.setLayout(new FlowLayout());
@@ -75,20 +69,15 @@ public class AppRouter extends JFrame implements ActionListener, Runnable {
         languageContent = new LanguagePage();
         resourceBundle = ResourceBundle.getBundle("Ex", Locale.getDefault());
         loginContent = new LoginPage(resourceBundle.getLocale());
-
         
         caixa = getContentPane();
         caixa.setLayout(new FlowLayout());
 
         loginPanel = new JPanel();
         loginPanel.add(loginContent.getScreenContent());
-
         
         registerContent = new RegisterPage(resourceBundle.getLocale());
-        chatContent = new ChatPage(user, resourceBundle.getLocale());
-
-        ChatUser chatUser = new ChatUser();
-        chatContent.updateMessages(chatUser);
+        chatContent = new ChatPage(resourceBundle.getLocale());
         findContent = new FindPage(resourceBundle.getLocale());
 
         registerPanel = new JPanel();
@@ -110,15 +99,15 @@ public class AppRouter extends JFrame implements ActionListener, Runnable {
 
         findContent.getBackMenuItem().addActionListener(this);
         chatContent.getBackMenuItem().addActionListener(this);
+
         registerContent.getBackMenuItem().addActionListener(this);
+
+        chatContent.sendButton.addActionListener(this);
         
         this.content = loginPanel;
         caixa.add(content);
-
         
         setJMenuBar(loginContent.menuBar);
-
-        chatPage.sendButton.addActionListener(this);
 
         pack();
         setLocationRelativeTo(null);
@@ -155,7 +144,10 @@ public class AppRouter extends JFrame implements ActionListener, Runnable {
         if (e.getSource() == loginContent.getRegisterButton()) {
             this.updatePage(registerContent);
             loginContent.cleanFields();
-        } else if (e.getSource() == loginContent.getLoginButton()) {
+        }
+
+        // Login Validation
+        if (e.getSource() == loginContent.getLoginButton()) {
             String requestLogin = loginContent.getLoginProps();
             this.server.sendMessage(requestLogin);
 
@@ -166,29 +158,67 @@ public class AppRouter extends JFrame implements ActionListener, Runnable {
             }
 
             if (this.server.responseStatus) {
-                updatePage(findContent);
+                chatContent.language = this.user.language;
                 loginContent.cleanFields();
+
+                ChatUser chatUser = new ChatUser();
+                chatContent.updateMessages(chatUser);
+
+                this.server.chat = chatContent;
+                updatePage(chatContent);
             } else {
                 JOptionPane.showMessageDialog(null, "Senha/Email incorretos!", "Aviso", JOptionPane.WARNING_MESSAGE);
             }
-        } else if (e.getSource() == registerContent.registerUserButton) {
-            String userData = registerContent.getNewUser();
-            System.out.println(userData);
-            this.server.sendMessage(userData);
+        }
 
-            this.updatePage(loginContent);
-            loginContent.cleanFields();
-        } else if (e.getSource() == findContent.getFindButton()) {
+        // Register User
+        if (e.getSource() == registerContent.registerUserButton) {
+            String userData = registerContent.getNewUser();
+//            System.out.println(userData);
+
+            if (new String(registerContent.confirmField.getPassword()).equals(new String(registerContent.passwordField.getPassword()))) {
+                this.server.sendMessage(userData);
+
+                this.updatePage(loginContent);
+                loginContent.cleanFields();
+            } else {
+                JOptionPane.showMessageDialog(null, "Senhas Incompativeis!", "Aviso", JOptionPane.WARNING_MESSAGE);
+            }
+        }
+
+        // Find Page
+        if (e.getSource() == findContent.getFindButton()) {
+            ChatUser chatUser = new ChatUser();
+            chatContent.updateMessages(chatUser);
+
+            this.server.chat = chatContent;
+
             this.updatePage(chatContent);
             loginContent.cleanFields();
-        } else if (e.getSource() == findContent.getExitMenuItem() || e.getSource() == chatContent.getExitMenuItem()
+        }
+
+        // Chat Page
+        if (e.getSource() == chatContent.sendButton) {
+            String rawMessage = chatContent.messageField.getText();
+
+            ChatUser message = new ChatUser(this.user.name , rawMessage);
+            chatContent.addMessages(message);
+
+            Create_txt_file file = new Create_txt_file();
+            try {
+                file.addMessage(message);
+            } catch (IOException event) {
+                throw new RuntimeException(event);
+            }
+
+            this.server.sendMessage(rawMessage);
+            chatContent.messageField.setText("");
+        }
+
+        if (e.getSource() == findContent.getExitMenuItem() || e.getSource() == chatContent.getExitMenuItem()
                 || e.getSource() == registerContent.getExitMenuItem()
                 || e.getSource() == loginContent.getExitMenuItem()) {
             this.updatePage(loginContent);
-        } else if (e.getSource() == chatPage.sendButton) {
-            String message = chatPage.messageField.getText();
-            messages.add(message);
-            server.sendMessage(message);
         }
 
         if (e.getSource() == findContent.getBackMenuItem() || 
@@ -210,13 +240,5 @@ public class AppRouter extends JFrame implements ActionListener, Runnable {
 
     @Override
     public void run() {
-    }
-
-    private void login(String email, String password) {
-        this.request = "Login;" + email + ";" + password;
-    }
-
-    public void register(String name, String email, String password, String phoneNumber, String language) {
-        this.request = "Register;" + name + ";" + email + ";" +  password + ";" + phoneNumber + ";" + language;
     }
 }

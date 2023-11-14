@@ -16,6 +16,8 @@ public class Chat extends PageInterface {
     public JTextField messageField;
     public JButton sendButton;
 
+    public String language;
+
     public Chat(User user) {
         super.superTitle = "Chat";
 
@@ -23,7 +25,7 @@ public class Chat extends PageInterface {
 
         JPanel topPanel = new JPanel();
         JLabel userName = new JLabel(user.name);
-        JLabel userLanguage = new JLabel("(" + user.language + ")");
+        JLabel userLanguage = new JLabel("(" + this.language + ")");
         topPanel.add(userName);
         topPanel.add(userLanguage);
         super.content.add(topPanel, BorderLayout.NORTH);
